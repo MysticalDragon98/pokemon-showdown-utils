@@ -14,7 +14,8 @@ export default async function marker (player1: string, player2: string, format: 
         {
             $match: {
                 players: { $all: [player1, player2] },
-                format: toId(format)
+                format: toId(format),
+                winner: { $exists: true, $ne: null }
             }
         },
         {
@@ -41,7 +42,7 @@ export default async function marker (player1: string, player2: string, format: 
                 total: "$total"
             }
         }
-     ]);
+    ]);
 
      const result = results[0] || { results: {}, total: 0 };
 

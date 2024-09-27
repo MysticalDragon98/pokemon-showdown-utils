@@ -1,6 +1,7 @@
 import { BattleModel } from "../../../db/models/battle.model";
 import { $ok } from "../../../exceptions";
 import ensureBattle from "../../../modules/battles/ensureBattle";
+import updateBattle from "../../../modules/battles/updateBattle";
 import toId from "../../../modules/utils/toId";
 
 export default async function notifyResult (battleId: string, winner: string, loser: string, format: string) {
@@ -10,13 +11,13 @@ export default async function notifyResult (battleId: string, winner: string, lo
     $ok(format, 'MISSING_PARAMETER', 'Format is required');
 
     await ensureBattle(battleId);
-
-    await BattleModel.updateOne({ id: battleId }, {
+    await updateBattle(battleId, {
         players: [toId(winner), toId(loser)],
         winner: toId(winner),
         loser: toId(loser),
         format: toId(format)
     });
+
 
     return {
         success: true,

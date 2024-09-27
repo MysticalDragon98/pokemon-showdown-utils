@@ -10,6 +10,7 @@
 // @grant        none
 // ==/UserScript==
 
+let lastReplaySent = Date.now();
 {//* Variables
     var URL = 'https://ps-assistant:3001';
 }
@@ -47,12 +48,14 @@
             return;
 
         }
-
+        
         if (this.battle.ended) {
-            this.send('/savereplay silent');
-            setTimeout(() => {
-                reportReplay(this.battle.id);
-            }, 1000);
+            if (Date.now() - lastReplaySent > 5000) {
+                this.send('/savereplay silent');
+                setTimeout(() => {
+                    reportReplay(this.battle.id);
+                }, 2000);
+            }
             var replayDownloadButton = '<span style="float:right;"><a href="//' + Config.routes.replays + '/" class="button replayDownloadButton"><i class="fa fa-download"></i> Download replay</a><br /><br /><button class="button" name="saveReplay"><i class="fa fa-upload"></i> Upload and share replay</button></span>';
 
             // battle has ended

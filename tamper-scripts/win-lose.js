@@ -113,6 +113,7 @@
 		if (!this.p1.name || !this.p2.name || !this.tier || this.p1.marker !== undefined || this.p2.marker !== undefined) return;
 
 		console.log("[Win-Lose] Loading marker for battle", this);
+
 		const player1 = this.p1.name;
 		const player2 = this.p2.name;
 
@@ -154,6 +155,19 @@
 
 		console.log("[Win-Lose] Loaded marker for " + player1 + " vs " + player2 + " in " + this.tier, this.p1, this.p2);
 		this.scene.updateSidebars();
+	}
+
+	Battle.prototype.ensureBattleMeta = async function () {
+		if (!this.p1.name || !this.p2.name || !this.tier || this.p1.marker !== undefined || this.p2.marker !== undefined) return;
+
+		await post('battles/notifyBattleStart', {
+			battleId: this.id,
+			player1: this.p1.name,
+			player2: this.p2.name,
+			format: this.tier,
+			avatar1: this.p1.avatar,
+			avatar2: this.p2.avatar
+		});
 	}
 
 	Battle.prototype.resetStep = function resetStep() {
@@ -218,6 +232,7 @@
 			}
 
 			this.ensureMarker();
+			this.ensureBattleMeta();
 			this.log(args);
 
 			break;
@@ -378,6 +393,7 @@
 			});
 
 			this.ensureMarker();
+			this.ensureBattleMeta();
 
 			this.log(args);
 			this.scene.updateSidebar(side);

@@ -3,7 +3,7 @@ import { ok } from "assert";
 export class CustomError extends Error {
     code: string;
     
-    constructor(message, code) {
+    constructor(code, message) {
         super(message); // Call the parent constructor with the message parameter
         this.code = code; // Add a custom code property
         this.name = this.constructor.name; // Set the error name to the class name (optional but recommended)

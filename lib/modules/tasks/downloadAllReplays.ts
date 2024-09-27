@@ -13,12 +13,11 @@ export default async function downloadAllReplays () {
             await downloadReplay(
                 battle.id, `https://replay.pokemonshowdown.com/${battle.id}`
             );
-
-            await BattleModel.updateOne({
-                id: battle.id
-            }, {
-                replay: `${$HOST}/battles/replay?id=${battle.id}`
-            });
+            
+            await BattleModel.updateOne(
+                { id: battle.id },
+                { replay: `${$HOST}/battles/replay?id=${battle.id}` }
+            );
         } catch (e) {
             console.log('Error downloading replay for battle: ' + battle.id);
             console.log(e);

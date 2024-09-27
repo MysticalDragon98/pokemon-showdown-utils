@@ -4,11 +4,14 @@ import { prop, getModelForClass, modelOptions, index } from '@typegoose/typegoos
 @index({ players: 1, format: 1 })
 export class Battle {
     @prop({ unique: true, index: true }) id: string;
+    
     @prop({ index: true }) players?: string[];
     @prop({ index: true }) winner?: string;
     @prop({ index: true }) loser?: string;
     @prop({ index: true }) format?: string;
+    
     @prop() replay?: string;
+    @prop({ index: true }) current?: boolean;
     @prop() createdAt?: Date;
 }
 
