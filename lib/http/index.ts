@@ -7,12 +7,7 @@ import setupNotificationService from './sockets/setupNotificationService';
 export async function initHTTPServer () {
     const server = new Server({
         endpoints: Endpoints,
-        port: $HTTP_PORT,
-        ssl: {
-            "cert": "/Users/camilotd/certs/ps-assistant.pem",
-            "key": "/Users/camilotd/certs/ps-assistant-key.pem",
-            "ca": "/Users/camilotd/certs/ps-assistant.pem"
-        }
+        port: $HTTP_PORT
     });
 
     setupNotificationService(server.httpServer.server)
